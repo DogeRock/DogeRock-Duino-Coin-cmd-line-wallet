@@ -83,7 +83,7 @@ def command():
       print(str(message))
       command()
       break
-  elif command1 == exit:
+  elif command1 == "exit":
     soc.close()
     os._exit(1)
   elif command1 == "changepassword":
