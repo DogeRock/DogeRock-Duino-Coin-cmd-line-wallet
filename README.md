@@ -1,6 +1,6 @@
 # DogeRock-Duino-Coin-cmd-line-wallet
 
-![Image of wallet](Wallet.png)
+![Image of wallet](https://media.discordapp.net/attachments/756665907098419261/759875524502749244/Wallet.png?width=410&height=431)
 
 A duino-coin wallet made by DogeRock.
 
