@@ -59,7 +59,6 @@ def command():
   elif command1 == "balance":
     soc.send(bytes("BALA", encoding="utf8"))
     balance = soc.recv(1024).decode()
-    soc.close()
 
     print("Duino balance: " + balance)
     command()
