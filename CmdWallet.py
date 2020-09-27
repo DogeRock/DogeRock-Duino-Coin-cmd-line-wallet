@@ -45,27 +45,28 @@ if (registerInput == "yes" or registerInput == "y"):
       time.sleep(10)
       os._exit(1)
 
-username = input("\nPlease enter your username:\n>")
-password = input("\nPlease enter your password:\n>")
+def login():
+  username = input("\nPlease enter your username:\n>")
+  password = input("\nPlease enter your password:\n>")
 
-soc.send(bytes("LOGI," + username + "," + password, encoding="utf8"))
-response = soc.recv(2).decode()           
-if response != "OK":
-  print("Invalid password! Exiting in 10s\n")
-  time.sleep(10)
-  os._exit(1)
-else:
-  print("\nSuccessfully logged in!")
-  soc.send(bytes("FROM,DogeRockWallet,"+str(username), encoding="utf8")) 
+  soc.send(bytes("LOGI," + username + "," + password, encoding="utf8"))
+  response = soc.recv(2).decode()           
+  if response != "OK":
+    print("Invalid password! Exiting in 10s\n")
+    time.sleep(10)
+    os._exit(1)
+  else:
+    print("\nSuccessfully logged in!")
+    soc.send(bytes("FROM,DogeRockWallet,"+str(username), encoding="utf8"))
+  print("\nWelcome " + username)
+  print("\nFor a list of commands type: help\n")
 
-print("\nWelcome " + username)
-
-print("\nFor a list of commands type: help\n")
+login()
 
 def command():
   command1 = input(">")
   if command1 == "help":
-    print("Help command: help\nBalance command: balance\nSend command: send")
+    print("Help command: help\nBalance command: balance\nSend command: send\nChange password: changepassword")
     command()
   elif command1 == "balance":
     soc.send(bytes("BALA", encoding="utf8"))
@@ -79,7 +80,19 @@ def command():
     soc.send(bytes("SEND,deprecated,"+str(recipient)+","+str(amount), encoding="utf8"))
     while True:
       message = soc.recv(1024).decode()
-      print("Server message: " + str(message))
+      print(str(message))
+      command()
+      break
+  elif command1 == exit:
+    soc.close()
+    os._exit(1)
+  elif command1 == "changepassword":
+    oldpassword = input("Enter your current password\n>")
+    newpassword = input("Enter new password\n>")
+    soc.send(bytes("CHGP,"+  str(oldpassword) + "," + str(newpassword), encoding="utf8"))
+    while True:
+      message = soc.recv(1024).decode()
+      print(str(message))
       command()
       break
   else:
