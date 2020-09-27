@@ -1,4 +1,5 @@
 import socket, urllib.request, os, time
+from signal import signal, SIGINT
 
 serverip = "https://raw.githubusercontent.com/revoxhere/duino-coin/gh-pages/serverip.txt" 
 with urllib.request.urlopen(serverip) as content:
@@ -9,6 +10,16 @@ with urllib.request.urlopen(serverip) as content:
 soc = socket.socket()
 soc.connect((str(pool_address), int(pool_port)))
 soc.recv(3).decode()
+
+def handler(signal_received, frame):
+	print("\nExiting...")
+	try:
+		soc.send(bytes("CLOSE", encoding="utf8"))
+	except:
+		pass
+	os._exit(0)
+
+signal(SIGINT, handler)
 
 print("Welcome to the DogeRock Duino-Coin cmd line wallet\n")
 
