@@ -33,7 +33,7 @@ class color:
    UNDERLINE = '\033[4m'
    END = '\033[0m'
 
-print(color.YELLOW + "Welcome to the DogeRock Duino-Coin cmd line wallet\n" + color.END)
+print(color.YELLOW + "Welcome to the DogeRock Duino-Coin CLI Wallet\n" + color.END)
 
 def registerprompt():
   register = input(color.BLUE + "Would you like to register? (yes/no)\n>" + color.END)
