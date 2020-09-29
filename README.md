@@ -12,7 +12,7 @@ Auto login - You only need to login once
 
 Your password is securely encoded in base64 then stored in a config file
 
-![Image of config file](https://media.discordapp.net/attachments/756705607527956641/760623672657969162/Screenshot_2020-09-29_at_18.01.15.png)
+![Image of config file](https://media.discordapp.net/attachments/756705607527956641/760624388009099304/fr169vLzU1dXb2lQoHxKQagIC7onTUMXZpN2794dERHxPHj3zwvnA4SkCICkllXQDh8Xj0nDDfIViFBCABhIAEYlVBQWH37t3Tpk.png)
 
 Easy to type commands
 
