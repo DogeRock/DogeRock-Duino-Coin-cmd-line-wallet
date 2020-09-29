@@ -1,20 +1,18 @@
 # DogeRock-Duino-Coin-cmd-line-wallet
 
-![Image of wallet](https://media.discordapp.net/attachments/756665907098419261/759875524502749244/Wallet.png?width=410&height=431)
+![Image of wallet](https://media.discordapp.net/attachments/677615827746291762/760494859227758642/unknown.png?width=383&height=432)
 
 A duino-coin wallet made by DogeRock.
 
 Send funds with ease
 
-![Image of sending funds with wallet](https://media.discordapp.net/attachments/756665907098419261/759874919931969566/Screenshot_2020-09-27_at_16.30.12.png)
-
 Easy to type commands
 
-![Image of commands](https://media.discordapp.net/attachments/756665907098419261/759875243891884062/D992NuJEb3kpbOzclzWLKqCydHU3WYAMoLGbpuvt0iCwvZEQHxIfBf2N6byIboRgAAAAASUVORK5CYII.png)
+![Image of commands](https://media.discordapp.net/attachments/756705607527956641/760541688158093343/HvkBRyOSl4AAAAAElFTkSuQmCC.png)
 
 Lightweight
 
-![3.1kb](https://media.discordapp.net/attachments/756665907098419261/759876088267669514/LwcNKPRuAoK8vGxMWUVldOnTmFgYAgIDmNkZGRmYrK3t0tNSUJTzDjagkALEXxcRNrCp4rucqPOIiXIR0OLlNACAFZ82Bp3k7DFA.png)
+![5.08kb](https://media.discordapp.net/attachments/756705607527956641/760541885671800962/37Ny83W00VnxMhRikoyMfHxpRVVE6fOoWBgSEgOIyRkZGZicne3i41JQluHYTBONq9QgsRcrhDoAIcdSI5EYuuZzQU0UOEHP5oKJ.png)
 
 Website: http://dogerock.digital
 Discord: http://discord.dogerock.digital
