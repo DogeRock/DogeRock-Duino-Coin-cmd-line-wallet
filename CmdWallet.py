@@ -22,8 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import socket, urllib.request, os, time, requests, json
+import socket, urllib.request, os, time, requests, json, configparser, base64
 from signal import signal, SIGINT
+from pathlib import Path
+
+config = configparser.ConfigParser()
 
 serverip = "https://raw.githubusercontent.com/revoxhere/duino-coin/gh-pages/serverip.txt" 
 with urllib.request.urlopen(serverip) as content:
@@ -32,11 +35,14 @@ with urllib.request.urlopen(serverip) as content:
   pool_port = content[1] 
 
 soc = socket.socket()
-soc.connect((str(pool_address), int(pool_port)))
+try:
+  soc.connect((str(pool_address), int(pool_port)))
+except:
+  print("Server is down. Please try again later")
 soc.recv(3).decode()
 
 def handler(signal_received, frame):
-	print("\nExiting...")
+	print(color.RED + "\nExiting..." + color.END)
 	try:
 		soc.send(bytes("CLOSE", encoding="utf8"))
 	except:
@@ -75,6 +81,10 @@ if (registerInput == "yes" or registerInput == "y"):
 
     if regiFeedback[0] == "OK":
       print(color.CYAN + "Successfully registered new account!" + color.END)
+      EncPassword = base64.b64encode(password.encode("utf-8"))
+      config['wallet'] = {"username": username, "password": EncPassword}
+      with open("WalletConfig.cfg", "a") as f:
+       config.write(f)
       break
     elif regiFeedback[0] == "NO":
       print(color.RED + "Cannot make account! Reason: " + str(regiFeedback[1]) + "\nExiting in 10s" + color.END)
@@ -94,10 +104,32 @@ def login():
   else:
     print(color.CYAN + "\nSuccessfully logged in!" + color.END)
     soc.send(bytes("FROM,DogeRockWallet,"+str(username), encoding="utf8"))
+    EncPassword = base64.b64encode(password.encode("utf-8"))
+    config['wallet'] = {"username": username, "password": EncPassword}
+    with open("WalletConfig.cfg", "a") as f:
+       config.write(f)
   print(color.CYAN + "\nWelcome " + username + color.END)
   print(color.CYAN + "\nFor a list of commands type: help\n" + color.END)
 
-login()
+if not Path("WalletConfig.cfg").is_file():
+  login()
+else:
+  config.read("WalletConfig.cfg")
+  username = config["wallet"]["username"]
+  s = config["wallet"]["password"]
+  EncPassword = s[1:]
+  password = base64.b64decode(EncPassword).decode("utf-8")
+  soc.send(bytes("LOGI," + username + "," + password, encoding="utf8"))
+  response = soc.recv(2).decode()           
+  if response != "OK":
+    print(color.RED + "Invalid password! Exiting in 10s\n" + color.END)
+    time.sleep(10)
+    os._exit(1)
+  else:
+    print(color.CYAN + "\nSuccessfully logged in!" + color.END)
+    soc.send(bytes("FROM,DogeRockWallet,"+str(username), encoding="utf8"))
+  print(color.CYAN + "\nWelcome " + username + color.END)
+  print(color.CYAN + "\nFor a list of commands type: help\n" + color.END)
 
 def command():
   global color
