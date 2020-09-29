@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import socket, urllib.request, os, time
+import socket, urllib.request, os, time, requests, json
 from signal import signal, SIGINT
 
 serverip = "https://raw.githubusercontent.com/revoxhere/duino-coin/gh-pages/serverip.txt" 
@@ -57,7 +57,7 @@ class color:
    UNDERLINE = '\033[4m'
    END = '\033[0m'
 
-print(color.YELLOW + "Welcome to the DogeRock Duino-Coin CLI Wallet\n" + color.END)
+print(color.YELLOW + "Welcome to the DogeRock Duino-Coin cmd line wallet\n" + color.END)
 
 def registerprompt():
   register = input(color.BLUE + "Would you like to register? (yes/no)\n>" + color.END)
@@ -66,9 +66,9 @@ def registerprompt():
 registerInput = registerprompt()
 
 if (registerInput == "yes" or registerInput == "y"):
-  username = input("What would you like your username to be?\n>")
-  password = input("What would you like your password to be?\n>")
-  email = input("What is your email address?\n>")
+  username = input(color.BLUE + "What would you like your username to be?\n>" + color.END)
+  password = input(color.BLUE + "What would you like your password to be?\n>" + color.END)
+  email = input(color.BLUE + "What is your email address?\n>" + color.END)
   while True:
     soc.send(bytes("REGI," + str(username) + "," + str(password) + "," + str(email), encoding="utf8"))
     regiFeedback = soc.recv(256).decode().split(",")
@@ -77,7 +77,7 @@ if (registerInput == "yes" or registerInput == "y"):
       print(color.CYAN + "Successfully registered new account!" + color.END)
       break
     elif regiFeedback[0] == "NO":
-      print("Cannot make account! Reason: " + str(regiFeedback[1]) + "\nExiting in 10s")
+      print(color.RED + "Cannot make account! Reason: " + str(regiFeedback[1]) + "\nExiting in 10s" + color.END)
       time.sleep(10)
       os._exit(1)
 
@@ -100,15 +100,17 @@ def login():
 login()
 
 def command():
+  global color
   command1 = input(color.DARKCYAN + ">" + color.END)
   if command1 == "help":
-    print(color.DARKCYAN + "Help command: help\nBalance command: balance\nSend command: send\nChange password: changepassword" + color.END)
+    print(color.DARKCYAN + "Help command: help\nBalance command: balance\nSend command: send\nChange password: changepassword\nDuino price: price\nExit: exit" + color.END)
     command()
   elif command1 == "balance":
     soc.send(bytes("BALA", encoding="utf8"))
     balance = soc.recv(1024).decode()
 
     print(color.BLUE + "Duino balance: " + balance + color.END)
+
     command()
   elif command1 == "send":
     recipient = input(color.YELLOW + "Enter recipients' username: " + color.END)
@@ -136,6 +138,20 @@ def command():
       print(color.GREEN + str(message) + color.END)
       command()
       break
+  elif command1 == "price":
+    api = "https://raw.githubusercontent.com/revoxhere/duco-statistics/master/api.json"
+    apiFeedback = requests.get(api, data = None)
+    rate = 1
+    if apiFeedback.status_code == 200:
+      content = apiFeedback.content.decode()
+      contentjson = json.loads(content)
+      ducofiat = float(contentjson["Duco price"]) * float(rate)
+      print(color.YELLOW + "Duino price: " + color.END)
+      print(ducofiat)
+      command()
+    else:
+      print(color.RED + "Error: Cannot send request to api, Please try again later" + color.END)
+      command()
   else:
     print(color.RED + "Unknown command!" + color.END)
     command()
