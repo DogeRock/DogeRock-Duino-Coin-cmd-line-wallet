@@ -8,7 +8,7 @@ Send funds with ease
 
 Easy to type commands
 
-![Image of commands](https://media.discordapp.net/attachments/756705607527956641/760541688158093343/HvkBRyOSl4AAAAAElFTkSuQmCC.png)
+![Image of commands](https://media.discordapp.net/attachments/756705607527956641/760542950605848596/kI8ZdCsAkqEAAAAASUVORK5CYII.png)
 
 Lightweight
 
